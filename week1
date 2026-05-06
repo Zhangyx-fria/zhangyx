@@ -1,31 +1,78 @@
-# 定义一个计算GC含量的函数
+# ==================================================
+# 生物信息学学习 week1: Day1 到 Day5 完整代码
+# 说明: 每天新增功能，逐步构建DNA序列分析工具包
+# ==================================================
+
+# ========= Day1：第一个Python程序 =========
+print("=" * 40)
+print("Day1: Hello, Bioinformatics")
+print("=" * 40)
+print("Hello, Bioinformatics\n")
+
+# ========= Day2：变量与DNA序列（字符串索引） =========
+print("Day2: DNA序列变量与索引")
+dna = "ATGCGTACGTAGCTAGCT"
+print("DNA序列:", dna)
+print("第一个碱基:", dna[0])
+print("最后一个碱基:", dna[-1])
+print("序列长度:", len(dna))
+print()
+
+# ========= Day3：计算GC含量（过程式） =========
+print("Day3: 计算GC含量（基本版）")
+dna3 = "ATGCGTACGTAGCTAGCT"
+length3 = len(dna3)
+g_count = dna3.count('G')
+c_count = dna3.count('C')
+gc_count = g_count + c_count
+gc_percent = (gc_count / length3) * 100
+print(f"序列: {dna3}")
+print(f"GC含量: {gc_percent:.2f}%\n")
+
+# ========= Day4：封装为函数 + 扩展反向互补 =========
+print("Day4: 函数化工具包")
+
 def gc_content(seq):
+    """计算DNA序列的GC含量百分比"""
     length = len(seq)
     if length == 0:
         return 0.0
     g = seq.count('G')
     c = seq.count('C')
-    gc = (g + c) / length * 100
-    return gc
-
-# 测试函数
-dna1 = "ATGC"
-dna2 = "GGGGCCCC"
-dna3 = "ATATATAT"
-
-print("dna1 GC含量:", gc_content(dna1))
-print("dna2 GC含量:", gc_content(dna2))
-print("dna3 GC含量:", gc_content(dna3))
+    return (g + c) / length * 100
 
 def reverse_complement(seq):
-    # 定义互补规则
+    """返回DNA序列的反向互补序列"""
     comp = {'A':'T', 'T':'A', 'G':'C', 'C':'G'}
-    # 生成互补序列
     complement = ''.join(comp[base] for base in seq)
-    # 反转
-    rev_comp = complement[::-1]
-    return rev_comp
+    return complement[::-1]
 
+# 测试Day4函数
 test_seq = "ATGC"
-print("原序列:", test_seq)
-print("反向互补:", reverse_complement(test_seq))
+print(f"测试序列: {test_seq}")
+print(f"GC含量: {gc_content(test_seq):.2f}%")
+print(f"反向互补: {reverse_complement(test_seq)}")
+print()
+
+# ========= Day5：从NCBI获取真实基因序列 =========
+print("Day5: 获取真实基因序列（TP53）")
+import requests
+
+def fetch_gene_sequence(gene_id):
+    """
+    根据NCBI的基因编号（如NM_000546）获取DNA序列字符串
+    """
+    url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id={gene_id}&rettype=fasta&retmode=text"
+    response = requests.get(url)
+    fasta_text = response.text
+    lines = fasta_text.strip().split('\n')
+    sequence_lines = [line for line in lines if not line.startswith('>')]
+    sequence = ''.join(sequence_lines)
+    return sequence
+
+# 获取TP53基因（人类抑癌基因）
+tp53_seq = fetch_gene_sequence("NM_000546")
+print(f"TP53基因序列长度: {len(tp53_seq)} bp")
+print("前100个碱基:", tp53_seq[:100])
+print(f"TP53基因GC含量: {gc_content(tp53_seq):.2f}%")
+print("\nweek1 完成 Day1~Day5！")
