@@ -1,4 +1,15 @@
-dna="ATGCGTACGTAGCTAGCT"
-print(dna)
-print("第一个碱基是:", dna[0])
-print("最后一个碱基是:", dna[-1])
+# 定义DNA序列
+dna = "ATGCGTACGTAGCTAGCT"
+
+# 计算长度
+length = len(dna)
+print("序列长度:", length)
+
+# 计算G和C的数量
+g_count = dna.count('G')
+c_count = dna.count('C')
+gc_count = g_count + c_count
+
+# 计算GC含量（百分比）
+gc_percent = (gc_count / length) * 100
+print("GC含量: {:.2f}%".format(gc_percent))
