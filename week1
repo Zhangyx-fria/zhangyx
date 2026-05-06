@@ -1,1 +1,4 @@
-print("Hello,Bioinformatics")
+dna="ATGCGTACGTAGCTAGCT"
+print(dna)
+print("第一个碱基是:", dna[0])
+print("最后一个碱基是:", dna[-1])
