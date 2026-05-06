@@ -16,3 +16,16 @@ dna3 = "ATATATAT"
 print("dna1 GC含量:", gc_content(dna1))
 print("dna2 GC含量:", gc_content(dna2))
 print("dna3 GC含量:", gc_content(dna3))
+
+def reverse_complement(seq):
+    # 定义互补规则
+    comp = {'A':'T', 'T':'A', 'G':'C', 'C':'G'}
+    # 生成互补序列
+    complement = ''.join(comp[base] for base in seq)
+    # 反转
+    rev_comp = complement[::-1]
+    return rev_comp
+
+test_seq = "ATGC"
+print("原序列:", test_seq)
+print("反向互补:", reverse_complement(test_seq))
